@@ -1,0 +1,116 @@
+{% extends 'layout.html' %}
+{% block content%}
+{% include '_messages.html' %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/admin">Admin Panel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/brands">Brands</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/category">Category</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <table class="table table-sm">
+        <thead>
+            <th>Sr NO</th>
+            <th>Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </thead>
+        <tbody>
+            {% if brands%}
+            {% for brand in brands%}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{brand.name}}</td>
+                <td><a href="{{url_for('updatebrand',id=brand.id)}}" class="btn btn-success">Edit</a></td>
+                <td>
+                  <!-- <a href="{{url_for('deletebrand',id=brand.id)}}" class="btn btn-danger">Delete</a> -->
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-{{brand.id}}">
+                    Delete
+                  </button>
+                </td>
+            </tr>
+
+            <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal-{{brand.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{brand.name}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span>Do you want to delete {{brand.name}} from your data base</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form action="{{url_for('deletebrand',id=brand.id)}}" method="POST"> 
+          <button type="submit" class="btn btn-danger">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+            
+            {% endfor %}
+            {% else %}
+            {% for category in categorys%}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{category.name}}</td>
+                <td><a href="{{url_for('updatecategory',id=category.id)}}" class="btn btn-success">Edit</a></td>
+                <td>
+                  <!-- <a href="{{url_for('deletecategory',id=category.id)}}" class="btn btn-danger">Delete</a> -->
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-{{category.id}}">
+                    Delete
+                  </button>
+                </td>
+            </tr>
+
+            <div class="modal fade" id="exampleModal-{{category.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{category.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <span>Do you want to delete {{category.name}} from your data base</span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{url_for('deletecategory',id=category.id)}}" method="POST"> 
+                      <button type="submit" class="btn btn-danger">Confirm</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+  </div>
+
+{%endblock content%}
